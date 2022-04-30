@@ -6,8 +6,8 @@ export function Header() {
     return (
         <header className="flex flex--center-h">
             <nav>
-                <NavLink to="/">Extract</NavLink>
-                <NavLink to="/settings">Settings</NavLink>
+                <NavLink title="Navigate to extraction view" to="/">Extract</NavLink>
+                <NavLink title="Navigate to settings view" to="/settings">Settings</NavLink>
             </nav>
         </header>
     );

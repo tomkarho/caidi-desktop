@@ -1,8 +1,10 @@
+import Page from '../../shared/PageComponent';
+
 function ExtractPage() {
     return (
-        <div className="page extract">
-            extract
-        </div>
+        <Page className="extract">
+            <span>extract</span>
+        </Page>
     );
 }
 

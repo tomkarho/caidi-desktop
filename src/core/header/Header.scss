@@ -25,6 +25,7 @@ header {
 
       &.active {
         background: $secondary;
+        border-bottom: 0.25em solid $tertiary;
       }
     }
   }

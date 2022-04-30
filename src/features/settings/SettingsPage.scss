@@ -1,0 +1,23 @@
+@import 'src/scss/colors';
+
+.page.settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .form-group {
+    margin: 1em 0;
+    font-size: 1.6em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 16em;
+    border: 0.1em solid $primary;
+    padding: 0.5em;
+    border-radius: 0.25em;
+  }
+
+  input[type='checkbox'] {
+    zoom: 1.5;
+  }
+}
