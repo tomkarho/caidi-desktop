@@ -3,6 +3,7 @@ import Page from '../../shared/PageComponent';
 import ExtractList from './ExtractList';
 
 function ExtractPage() {
+    window.electron.logMessage('ExtractPage init');
     return (
         <Page className="extract">
             <ExtractList />

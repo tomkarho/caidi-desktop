@@ -1,7 +1,8 @@
 const path = require('path');
-
 const { app, BrowserWindow } = require('electron');
 const isDev = require('electron-is-dev');
+
+require('./electron/interop');
 
 function createWindow() {
     // Create the browser window.
@@ -9,7 +10,7 @@ function createWindow() {
         width: 1024,
         height: 768,
         webPreferences: {
-            nodeIntegration: true,
+            preload: path.join(__dirname, 'electron', 'preload.js')
         },
     });
 

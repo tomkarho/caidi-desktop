@@ -5,6 +5,12 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import ExtractPage from './features/extract/ExtractPage';
 import SettingsPage from './features/settings/SettingsPage';
 
+declare global {
+    interface Window {
+        electron: any;
+    }
+}
+
 function App() {
     return (
         <BrowserRouter>
