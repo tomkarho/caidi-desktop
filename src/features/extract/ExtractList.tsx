@@ -9,7 +9,7 @@ function ExtractList() {
         const elist: Extraction[] = [];
         for (let i = 0; i < 100; i++) {
             const e: Extraction = {
-                fileName: `Test file name '#${i}`,
+                fileName: `Test file name #${i}`,
                 path: `/home/user/extractions/test-extraction-file-number-${i}.mkv`,
                 progress: Math.floor(Math.random() * 100)
             };

@@ -1,0 +1,13 @@
+@import 'src/scss/colors';
+
+.extraction-row {
+  padding: 1em 0;
+
+  &:not(:last-of-type) {
+    border-bottom: 0.1em solid $tertiary;
+  }
+
+  p {
+    margin: 0;
+  }
+}
