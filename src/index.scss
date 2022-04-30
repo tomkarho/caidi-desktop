@@ -1,4 +1,5 @@
 @import 'scss/colors';
+@import 'scss/mixins';
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -21,7 +22,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+
+  @include for-tablet-portrait-up {
+    font-size: 1.8rem;
+  }
+  @include for-desktop-up {
+    font-size: 2rem;
+  }
 }
 
 
