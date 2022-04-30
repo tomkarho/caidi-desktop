@@ -1,0 +1,8 @@
+@import '../../scss/variables';
+@import '../../scss/colors';
+
+header {
+  background: $primary;
+  color: $white;
+  height: $headerHeight;
+}

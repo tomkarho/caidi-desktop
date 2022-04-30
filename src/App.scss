@@ -1,0 +1,8 @@
+@import 'scss/variables';
+@import 'scss/colors';
+
+.page {
+  height: calc(100% - #{$headerHeight});
+  background: $smoke;
+}
+
