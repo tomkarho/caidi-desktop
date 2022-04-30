@@ -2,10 +2,13 @@ import {createSlice, current, Draft, PayloadAction} from '@reduxjs/toolkit';
 
 export interface ISettings {
     readonly darkMode: boolean;
+    readonly ffmpegLocation: string;
 }
 
+// Todo: load from persistent storage
 const initialState: ISettings = {
-    darkMode: false // Todo: load from persistent storage
+    darkMode: false,
+    ffmpegLocation: '/usr/bin/ffmpeg'
 };
 
 const name = 'settings';

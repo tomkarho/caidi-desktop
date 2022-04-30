@@ -1,3 +1,5 @@
+@import 'scss/colors';
+
 *, *:before, *:after {
   box-sizing: border-box;
 }
@@ -35,4 +37,27 @@ body {
   &--center-h {
     align-items: center;
   }
+}
+
+.page.dark {
+  input {
+    &:focus {
+      box-shadow: $smoke 0 0 0.15em 0.1em;
+    }
+  }
+}
+
+input {
+  &:focus {
+    box-shadow: $primary 0 0 0.15em 0.05em;
+  }
+}
+
+input[type="text"] {
+  background: $white;
+  border: 0.1em solid $primary;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  outline: none;
+  font-size: 0.75em;
 }

@@ -14,7 +14,12 @@ function SettingsPage() {
     const onDarkModeChange = (e: ChangeEvent<HTMLInputElement>) => {
         const settings = {...settingsForm, darkMode: e.target.checked};
         setSettingsForm(settings);
-        console.log('Settings updated to', settings);
+        dispatch(updateSettings(settings));
+    };
+
+    const onFFMpegLocationChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const settings = {...settingsForm, ffmpegLocation: e.target.value};
+        setSettingsForm(settings);
         dispatch(updateSettings(settings));
     };
 
@@ -22,10 +27,12 @@ function SettingsPage() {
         <Page className="settings">
             <form onSubmit={e => e.preventDefault()}>
                 <div className="form-group">
-                    <label htmlFor="dark-mode">
-                        Dark mode:
-                    </label>
+                    <label htmlFor="dark-mode">Dark mode:</label>
                     <input checked={settingsForm.darkMode} onChange={onDarkModeChange} id="dark-mode" name="dark-mode" type="checkbox"/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="dark-mode">FFmpeg location:</label>
+                    <input disabled value={settingsForm.ffmpegLocation} onChange={onFFMpegLocationChange} id="ffmpeg-location" name="ffmpeg-location" type="text"/>
                 </div>
             </form>
         </Page>

@@ -5,16 +5,31 @@
   flex-direction: column;
   align-items: center;
 
+  form {
+    margin-top: 2em;
+    border: 0.05em solid $primary;
+    padding: 1em;
+    border-radius: 0.25em;
+  }
+
   .form-group {
     margin: 1em 0;
     display: flex;
     font-size: 1.5em;
     align-items: center;
-    justify-content: space-between;
-    width: 16em;
-    border: 0.1em solid $primary;
-    padding: 0.5em;
-    border-radius: 0.25em;
+    width: 24em;
+  }
+
+  label {
+    width: 35%;
+  }
+
+  input {
+    margin-left: 2em;
+
+    &[type="text"] {
+      flex: 1 1 auto;
+    }
   }
 
   input[type='checkbox'] {
