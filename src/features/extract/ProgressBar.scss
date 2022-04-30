@@ -1,0 +1,21 @@
+@import "src/scss/colors";
+
+.progress-bar {
+  margin-top: 0.15em;
+  border: 0.1em solid $primary;
+  border-radius: 0.25em;
+
+  .bar {
+    padding: 0.25em;
+    display: flex;
+    align-items: center;
+    border-radius: 0.25em;
+    background: $primary;
+
+    .label {
+      display: block;
+      font-size: 0.8em;
+      color: $white;
+    }
+  }
+}

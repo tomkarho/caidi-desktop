@@ -1,11 +1,12 @@
 import './ExtractionRow.scss';
 import {Extraction} from './Extraction';
+import ProgressBar from "./ProgressBar";
 
 function ExtractionRow({extraction}: {extraction: Extraction}) {
     return (
         <div className="extraction-row flex flex--column flex--center-v">
             <p>{extraction.fileName}</p>
-            <div className="progress-bar">{extraction.progress}</div>
+            <ProgressBar progress={extraction.progress} />
         </div>
     );
 }
