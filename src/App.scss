@@ -3,8 +3,8 @@
 
 .page {
   height: calc(100% - #{$headerHeight});
-  background: $smoke;
   color: $black;
+  overflow-y: auto;
 
   &.dark {
     background: $dark;
