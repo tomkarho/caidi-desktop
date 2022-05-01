@@ -1,5 +1,7 @@
 const events = {
-    logMessage: 'logMessage'
+    logMessage: 'logMessage',
+    openFileDialog: 'openFileDialog',
+    openFolderDialog: 'openFolderDialog'
 };
 
 module.exports = events;
