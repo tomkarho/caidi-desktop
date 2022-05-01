@@ -69,3 +69,10 @@ input[type="text"] {
   outline: none;
   font-size: 0.75em;
 }
+
+.dark {
+  button {
+    background: $grey;
+    color: $white;
+  }
+}

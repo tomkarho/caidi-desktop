@@ -1,15 +1,15 @@
 @import "src/scss/colors";
 
+$borderRadius: 0.25em;
+
 .progress-bar {
   margin-top: 0.15em;
   border: 0.1em solid $primary;
-  border-radius: 0.25em;
+  border-radius: $borderRadius;
 
   .bar {
-    padding: 0.25em;
-    display: flex;
-    align-items: center;
-    border-radius: 0.25em;
+    padding: 0.05em 0.25em;
+    border-radius: $borderRadius;
     background: $primary;
 
     .label {
