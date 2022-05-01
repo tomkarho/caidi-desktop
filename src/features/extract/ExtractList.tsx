@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {Extraction} from './Extraction';
 import ExtractionRow from './ExtractionRow';
+import {logToFile} from '../../shared/helpers';
 
 function ExtractList() {
     const [extractions, setExtractions] = useState<Extraction[]>();
@@ -18,6 +19,7 @@ function ExtractList() {
         }
 
         setExtractions(elist);
+        logToFile(`ExtractList: ${extractions?.length} in extractions list`);
     }, []);
 
     return (
