@@ -1,5 +1,5 @@
 export interface Extraction {
-    readonly fileName: string;
+    readonly name: string;
     readonly path: string;
     readonly progress: number;
 }

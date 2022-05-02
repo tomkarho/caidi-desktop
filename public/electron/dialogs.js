@@ -2,6 +2,8 @@ const {dialog, ipcMain, BrowserWindow} = require('electron');
 const events = require('./events');
 const {logToFile} = require('./logging');
 const videoExtensions = require('video-extensions');
+const path = require('path');
+const fs = require('fs');
 
 logToFile('Dialogs: Setting up dialog management');
 
@@ -10,36 +12,81 @@ const videoFilter = {
     extensions: videoExtensions
 };
 
-ipcMain.on(events.openFileDialog, async (event) => {
-    logToFile('Dialogs: user wants to open file dialog');
+async function openFileDialog(folder = false) {
+    if (folder) {
+        return await dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
+            title: 'Select folder to extract',
+            properties: ['openDirectory']
+        });
+    }
 
-    const result = await dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
+    return await dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
         title: 'Select video file to extract',
         properties: ['openFile', 'multiSelections'],
         filters: [videoFilter]
     });
+}
+
+ipcMain.on(events.openFileDialog, async (event) => {
+    const result = await openFileDialog(false);
 
     if (result.canceled) {
-        logToFile('Dialogs: User cancelled');
+       event.returnValue = null;
+       return;
+    }
+
+    const {filePaths} = {...result};
+
+    if (!filePaths) {
+        event.returnValue = null;
         return;
     }
 
-    logToFile(`Dialogs: User selected ${result.filePaths.length} files`);
-    event.returnValue = result.filePaths;
+    event.returnValue = result.filePaths?.map(filePath => {
+        const [name] = filePath?.split(path.sep)?.slice(-1);
+        return {name, path: filePath};
+    });
 });
 
 ipcMain.on(events.openFolderDialog, async (event) => {
-    logToFile('Dialogs: user wants to open directory dialog');
-    const result = await dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
-        title: 'Select folder to extract',
-        properties: ['openDirectory']
-    });
+    const result = await openFileDialog(true);
 
     if (result.canceled) {
-        logToFile('Dialogs: User cancelled');
+        event.returnValue = null;
         return;
     }
 
-    logToFile(`Dialogs: User selected folder '${result.filePaths[0]}'`);
-    event.returnValue = result.filePaths;
+    const [directoryPath] = result.filePaths;
+
+    console.log('directory', directoryPath);
+
+    if (!fs.lstatSync(directoryPath).isDirectory()) {
+        event.returnValue = null;
+        return;
+    }
+
+
+    fs.readdir(directoryPath, function (err, filePaths) {
+        if (err) {
+            logToFile(`Could not read directory '${directoryPath}: ${err}'`);
+            return;
+        }
+
+        const files = filePaths.map(filePath => {
+            const ext = path.extname(filePath)?.substring(1)
+            if (videoExtensions.includes(ext)) {
+                const [name] = filePath?.split(path.sep)?.slice(-1);
+                return {name, path: filePath};
+            }
+        }).filter(p => p !== undefined);
+
+        console.log(files);
+
+        if (!files) {
+            event.returnValue = null;
+            return;
+        }
+
+        event.returnValue = files;
+    });
 });

@@ -76,3 +76,7 @@ input[type="text"] {
     color: $white;
   }
 }
+
+*:disabled {
+  cursor: not-allowed;
+}
