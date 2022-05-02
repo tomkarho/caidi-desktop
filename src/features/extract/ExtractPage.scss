@@ -1,5 +1,14 @@
 @import 'src/scss/colors';
 
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
 .page.extract {
   #extraction-list {
     flex: 1 1 auto;
@@ -16,6 +25,16 @@
 
       &:not(:first-of-type, :last-of-type) {
         margin: 0 0.25em;
+      }
+
+      &#extract-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          animation: rotation 1s infinite linear;
+        }
       }
     }
   }
