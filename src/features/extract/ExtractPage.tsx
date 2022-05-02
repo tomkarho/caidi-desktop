@@ -40,7 +40,7 @@ function ExtractPage() {
             <div className="controls flex">
                 <button onClick={() => openFileDialog(false)} disabled={extractionActive}>Add files</button>
                 <button onClick={() => openFileDialog(true)} disabled={extractionActive}>Add folder</button>
-                <button id="extract-button" onClick={startExtraction} disabled={extractionActive}>
+                <button id="extract-button" onClick={startExtraction} disabled={extractionActive || !extractions.length}>
                     {extractionActive ?
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                             <title>spinner9</title>
