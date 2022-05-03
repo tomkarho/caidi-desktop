@@ -12,15 +12,16 @@ const videoFilter = {
     extensions: videoExtensions
 };
 
-async function openFileDialog(folder = false) {
+async function openFileDialog(event, folder = false) {
+    const window = BrowserWindow.getFocusedWindow();
     if (folder) {
-        return await dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
+        return await dialog.showOpenDialog(window, {
             title: 'Select folder to extract',
             properties: ['openDirectory']
         });
     }
 
-    return await dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
+    return await dialog.showOpenDialog(window, {
         title: 'Select video file to extract',
         properties: ['openFile', 'multiSelections'],
         filters: [videoFilter]

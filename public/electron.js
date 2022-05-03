@@ -7,6 +7,8 @@ require('./electron/interop');
 function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
+        minWidth: 768,
+        minHeight: 640,
         width: 1024,
         height: 768,
         webPreferences: {

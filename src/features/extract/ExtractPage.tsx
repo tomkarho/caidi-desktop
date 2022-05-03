@@ -16,12 +16,12 @@ function ExtractPage() {
 
     function openFileDialog(folder: boolean) {
         const files = folder ? window.electron.openFolderDialog() : window.electron.openFileDialog();
-        logToFile(`ExtractPage: received ${files.length} files from main process`);
 
         if (!files) {
             return;
         }
 
+        logToFile(`ExtractPage: received ${files.length} files from main process`);
         setExtractions(files.map((file: IFile) => {
             const progress = 0;
             return {...file, progress};
