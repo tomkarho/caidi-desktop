@@ -74,6 +74,10 @@ input[type="text"] {
   button {
     background: $grey;
     color: $white;
+
+    &:disabled {
+      color: $dark;
+    }
   }
 }
 
