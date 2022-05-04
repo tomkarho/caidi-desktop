@@ -29,6 +29,12 @@ header {
         height: 100%;
         font-size: 1.15em;
       }
+
+      &.active {
+        button {
+          border-style: inset;
+        }
+      }
     }
   }
 }
