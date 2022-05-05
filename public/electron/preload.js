@@ -5,5 +5,6 @@ const api = {};
 api[events.logMessage] = (message) => ipcRenderer.send(events.logMessage, message);
 api[events.openFileDialog] = (message) => ipcRenderer.sendSync(events.openFileDialog, message);
 api[events.openFolderDialog] = (message) => ipcRenderer.sendSync(events.openFolderDialog, message);
+api[events.saveSettings] = (settings) => ipcRenderer.sendSync(events.saveSettings, settings);
 
 contextBridge.exposeInMainWorld('electron', api);

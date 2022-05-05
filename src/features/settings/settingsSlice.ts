@@ -21,6 +21,7 @@ const settingsSlice = createSlice({
             const currentSettings = current(state);
             console.log('current settings', currentSettings);
             const updatedSettings = {...currentSettings, ...action.payload};
+            window.electron.saveSettings(updatedSettings);
             console.log('updated settings', updatedSettings);
 
             return updatedSettings;

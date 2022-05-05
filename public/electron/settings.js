@@ -1,4 +1,4 @@
-const {app} = require('electron');
+const {app, ipcMain} = require('electron');
 const fs = require('fs');
 const {logToFile} = require('./logging');
 const events = require('./events');
@@ -17,10 +17,16 @@ fs.access(settingsFile, (error) => {
     }
 
     if (error?.message.includes(noFileError)) {
-        fs.appendFileSync(settingsFile, JSON.stringify({}));
+        fs.writeFileSync(settingsFile, JSON.stringify({}));
         return;
     }
 
     const settings = JSON.parse(fs.readFileSync(settingsFile) || '{}');
     console.log(settings);
+});
+
+ipcMain.on(events.saveSettings, async (event, settings) => {
+    logToFile(`User is attempting to save settings ${JSON.stringify(settings)}`);
+    fs.writeFileSync(settingsFile, JSON.stringify(settings, null, 2));
+    event.returnValue = true;
 });
