@@ -13,6 +13,7 @@ const videoFilter = {
 };
 
 async function openFileDialog(event, folder = false) {
+    logToFile(`Dialogs/openFileDialog: user is attempting to open ${folder ? 'folder' : ' file'} dialog`);
     const window = BrowserWindow.getFocusedWindow();
     if (folder) {
         return await dialog.showOpenDialog(window, {
@@ -32,8 +33,9 @@ ipcMain.on(events.openFileDialog, async (event) => {
     const result = await openFileDialog(false);
 
     if (result.canceled) {
-       event.returnValue = null;
-       return;
+        logToFile(`Dialogs/onOpenFileDialog: user cancelled`);
+        event.returnValue = null;
+        return;
     }
 
     const {filePaths} = {...result};
@@ -43,6 +45,8 @@ ipcMain.on(events.openFileDialog, async (event) => {
         return;
     }
 
+    logToFile(`Dialogs/onOpenFileDialog: ${filePaths.length} files selected`);
+
     event.returnValue = result.filePaths?.map(filePath => {
         const [name] = filePath?.split(path.sep)?.slice(-1);
         return {name, path: filePath};
@@ -50,7 +54,7 @@ ipcMain.on(events.openFileDialog, async (event) => {
 });
 
 ipcMain.on(events.openFolderDialog, async (event) => {
-    const result = await openFileDialog(true);
+    const result = await openFileDialog(event, true);
 
     if (result.canceled) {
         event.returnValue = null;
@@ -58,8 +62,6 @@ ipcMain.on(events.openFolderDialog, async (event) => {
     }
 
     const [directoryPath] = result.filePaths;
-
-    console.log('directory', directoryPath);
 
     if (!fs.lstatSync(directoryPath).isDirectory()) {
         event.returnValue = null;
@@ -81,13 +83,12 @@ ipcMain.on(events.openFolderDialog, async (event) => {
             }
         }).filter(p => p !== undefined);
 
-        console.log(files);
-
         if (!files) {
             event.returnValue = null;
             return;
         }
 
+        logToFile(`Dialogs/onOpenFolderDialog: ${filePaths.length} files selected from '${directoryPath}'`);
         event.returnValue = files;
     });
 });
