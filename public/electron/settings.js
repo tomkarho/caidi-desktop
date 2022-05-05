@@ -18,10 +18,7 @@ fs.access(settingsFile, (error) => {
 
     if (error?.message.includes(noFileError)) {
         fs.writeFileSync(settingsFile, JSON.stringify({}));
-        return;
     }
-
-
 });
 
 ipcMain.on(events.saveSettings, (event, settings) => {
