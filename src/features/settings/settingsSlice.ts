@@ -6,10 +6,7 @@ export interface ISettings {
 }
 
 // Todo: load from persistent storage
-const initialState: ISettings = {
-    darkMode: false,
-    ffmpegLocation: '/usr/bin/ffmpeg'
-};
+const initialState: ISettings = { darkMode: false, ffmpegLocation: '/usr/bin/ffmpeg', ...window.electron.loadSettings()};
 
 const name = 'settings';
 

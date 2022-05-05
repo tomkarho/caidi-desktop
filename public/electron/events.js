@@ -4,6 +4,7 @@ const events = {
     openFolderDialog: 'openFolderDialog',
     settingsLoaded: 'settingsLoaded',
     saveSettings: 'saveSettings',
+    loadSettings: 'loadSettings'
 };
 
 module.exports = events;
