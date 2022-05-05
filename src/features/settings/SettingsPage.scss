@@ -4,12 +4,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 
   form {
     margin-top: 2em;
     border: 0.05em solid $primary;
     padding: 1em;
     border-radius: 0.25em;
+  }
+
+  p {
+    background: $smoke;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    padding: 0.25em 0;
   }
 
   .form-group {
@@ -34,5 +43,11 @@
 
   input[type='checkbox'] {
     zoom: 1.5;
+  }
+}
+
+.page.settings.dark {
+  p {
+    background: $grey;
   }
 }

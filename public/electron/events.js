@@ -4,7 +4,8 @@ const events = {
     openFolderDialog: 'openFolderDialog',
     settingsLoaded: 'settingsLoaded',
     saveSettings: 'saveSettings',
-    loadSettings: 'loadSettings'
+    loadSettings: 'loadSettings',
+    getFFMpegVersion: 'getFFMpegVersion'
 };
 
 module.exports = events;

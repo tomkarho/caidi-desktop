@@ -2,6 +2,7 @@ const {app, ipcMain} = require('electron');
 const fs = require('fs');
 const {logToFile} = require('./logging');
 const events = require('./events');
+const {getFFMpegVersion} = require('./ffmpeg');
 
 const settingsFolder = `${app.getPath('appData')}/caidi`;
 const settingsFile = `${settingsFolder}/settings.json`;
@@ -32,6 +33,8 @@ ipcMain.on(events.saveSettings, (event, settings) => {
 
 ipcMain.on(events.loadSettings, (event) => {
     const settings = JSON.parse(fs.readFileSync(settingsFile) || '{}');
+    settings.ffmpegVersion = getFFMpegVersion();
+
     logToFile(`Loaded settings from file ${settingsFile}: ${JSON.stringify(settings)}`);
     event.returnValue = settings;
 });

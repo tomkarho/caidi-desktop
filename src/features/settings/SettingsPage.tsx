@@ -35,6 +35,7 @@ function SettingsPage() {
                     <input disabled value={settingsForm.ffmpegLocation} onChange={onFFMpegLocationChange} id="ffmpeg-location" name="ffmpeg-location" type="text"/>
                 </div>
             </form>
+            <p>ffmpeg version: {settingsForm.ffmpegVersion}</p>
         </Page>
     );
 }
