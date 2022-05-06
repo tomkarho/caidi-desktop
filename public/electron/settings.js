@@ -35,7 +35,6 @@ ipcMain.on(events.saveSettings, (event, settings) => {
 
 ipcMain.on(events.loadSettings, async (event) => {
     const settings = JSON.parse(fs.readFileSync(settingsFile) || '{}');
-    delete settings.ffmpegVersion;
     settings.ffmpegVersion = await getFFMpegVersion();
 
     logToFile(`Loaded settings from file ${settingsFile}: ${JSON.stringify(settings)}`);
