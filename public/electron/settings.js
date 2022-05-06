@@ -27,13 +27,16 @@ ipcMain.on(events.saveSettings, (event, settings) => {
         return;
     }
 
+    delete settings.ffmpegVersion;
+
     logToFile(`User is attempting to save settings ${JSON.stringify(settings)}`);
     fs.writeFileSync(settingsFile, JSON.stringify(settings, null, 2));
 });
 
-ipcMain.on(events.loadSettings, (event) => {
+ipcMain.on(events.loadSettings, async (event) => {
     const settings = JSON.parse(fs.readFileSync(settingsFile) || '{}');
-    getFFMpegVersion(settings);
+    delete settings.ffmpegVersion;
+    settings.ffmpegVersion = await getFFMpegVersion();
 
     logToFile(`Loaded settings from file ${settingsFile}: ${JSON.stringify(settings)}`);
     event.returnValue = settings;
