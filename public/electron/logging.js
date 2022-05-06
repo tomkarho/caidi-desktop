@@ -5,14 +5,18 @@ const os = require('os');
 
 console.log('Setting up logging');
 
+function pad(number) {
+    return number.toString().length > 1 ? number : `0${number}`;
+}
+
 const getTimeParts = () => {
     const now = new Date();
     const year = now.getFullYear();
-    const month = now.getMonth();
-    const day = now.getDate();
-    const hour = now.getHours();
-    const minute = now.getMinutes();
-    const second = now.getMinutes();
+    const month = pad(now.getMonth());
+    const day = pad(now.getDate());
+    const hour = pad(now.getHours());
+    const minute = pad(now.getMinutes());
+    const second = pad(now.getSeconds());
     const milliseconds = now.getMilliseconds();
 
     return {year, month, day, hour, minute, second, milliseconds};
@@ -20,18 +24,17 @@ const getTimeParts = () => {
 
 const {year, month, day} = getTimeParts();
 const logsFolder = 'logs';
-const logFile = `${logsFolder}/caidi-${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}.log`;
+const logFile = `${logsFolder}/caidi-${year}-${month}-${day}.log`;
 
 if (!fs.existsSync(logsFolder)){
     fs.mkdirSync(logsFolder, { recursive: true });
 }
 
-function logToFile(message) {
+function logToFile(message, traceLevel = 'info') {
     const {hour, minute, second, milliseconds} = getTimeParts();
-    const timeStamp = `${os.EOL}[${hour}:${minute}:${second}.${milliseconds}]`
-    const logMessage = `${timeStamp}: ${message}`;
+    const timeStamp = `${os.EOL}${hour}:${minute}:${second}.${milliseconds}`;
+    const logMessage = `${timeStamp} [${traceLevel.toUpperCase()}]: ${message}`;
 
-    console.info(logMessage);
     fs.appendFile(logFile, logMessage, error => {
         if (error) {
             console.error(`Failed to write message '${message}' to file ${logFile}`, error);
