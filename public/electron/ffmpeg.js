@@ -1,23 +1,27 @@
 const {exec} = require('child_process');
 const {logToFile} = require('./logging');
+const os = require('os');
 
-function getFFMpegVersion(path) {
+function getFFMpegVersion(settings) {
     exec('ffmpeg -version',  (error, stdout, stderr) => {
         if (error) {
-
-            logToFile(`getFFMpegVersion: An exception when attempting to get ffmpeg version ${error}`);
+            logToFile(`getFFMpegVersion: An exception when attempting to get ffmpeg version ${error}. Is ffmpeg in PATH?`);
             return null;
         }
 
         if (stderr) {
-            logToFile(`getFFMpegVersion: An error when attempting to get ffmpeg version ${error}`);
+            logToFile(`getFFMpegVersion: An error occurred when attempting to get ffmpeg version ${error}. Is ffmpeg in PATH?`);
             return null;
         }
 
-        console.info('Stdout', stdout);
-    });
+        const versionLine = stdout.split(os.EOL)[0];
+        const version = versionLine.split(' ')[2].trim();
+        logToFile(`Found ffmpeg version '${version}'`);
 
-    return 'n5.0';
+        if (settings) {
+            settings.ffmpegVersion = version;
+        }
+    });
 }
 
 module.exports = {

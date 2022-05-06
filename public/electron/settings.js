@@ -33,7 +33,7 @@ ipcMain.on(events.saveSettings, (event, settings) => {
 
 ipcMain.on(events.loadSettings, (event) => {
     const settings = JSON.parse(fs.readFileSync(settingsFile) || '{}');
-    settings.ffmpegVersion = getFFMpegVersion();
+    getFFMpegVersion(settings);
 
     logToFile(`Loaded settings from file ${settingsFile}: ${JSON.stringify(settings)}`);
     event.returnValue = settings;
