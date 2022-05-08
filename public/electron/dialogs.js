@@ -75,11 +75,11 @@ ipcMain.on(events.openFolderDialog, async (event) => {
             return;
         }
 
-        const files = filePaths.map(filePath => {
-            const ext = path.extname(filePath)?.substring(1)
+        const files = filePaths.map(file => {
+            const ext = path.extname(file)?.substring(1)
             if (videoExtensions.includes(ext)) {
-                const [name] = filePath?.split(path.sep)?.slice(-1);
-                return {name, path: filePath};
+                const [name] = file?.split(path.sep)?.slice(-1);
+                return {name, path: `${directoryPath}/${file}`};
             }
         }).filter(p => p !== undefined);
 
