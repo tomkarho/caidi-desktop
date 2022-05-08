@@ -3,7 +3,8 @@ import Page from '../../shared/PageComponent';
 import ExtractList from './ExtractList';
 import {logToFile} from '../../shared/helpers';
 import {useAppDispatch, useAppSelector} from '../../core/hooks';
-import {setExtractActiveState, setExtractions} from './extractionSlice';
+import {setExtractActiveState, setExtractions, updateExtractionProgress} from './extractionSlice';
+import {Extraction} from './Extraction';
 
 interface IFile {
     name: string;
@@ -34,7 +35,10 @@ function ExtractPage() {
     function startExtraction() {
         extractions.extractions.forEach(ext => window.electron.startExtraction(ext));
         dispatch(setExtractActiveState(true));
-        setTimeout(() => dispatch(setExtractActiveState(false)), 3000);
+        window.electron.listenForExtractionUpdate((extraction: Extraction) => {
+            console.log('ExtractPage listenForExtractionUpdate', extraction);
+            dispatch(updateExtractionProgress(extraction));
+        });
     }
 
     function ffmpegErrorBanner() {

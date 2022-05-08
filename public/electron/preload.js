@@ -8,5 +8,10 @@ api[events.openFolderDialog] = (message) => ipcRenderer.sendSync(events.openFold
 api[events.loadSettings] = () => ipcRenderer.sendSync(events.loadSettings);
 api[events.saveSettings] = (settings) => ipcRenderer.send(events.saveSettings, settings);
 api[events.startExtraction] = (file) => ipcRenderer.send(events.startExtraction, file);
+api[events.listenForExtractionUpdate] = (handler) => {
+    const callBack = (event, file) => handler(file);
+    ipcRenderer.off(events.updateExtractionProgress, callBack);
+    ipcRenderer.on(events.updateExtractionProgress, callBack);
+};
 
 contextBridge.exposeInMainWorld('electron', api);

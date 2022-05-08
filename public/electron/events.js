@@ -6,7 +6,9 @@ const events = {
     saveSettings: 'saveSettings',
     loadSettings: 'loadSettings',
     getFFMpegVersion: 'getFFMpegVersion',
-    startExtraction: 'startExtraction'
+    startExtraction: 'startExtraction',
+    listenForExtractionUpdate: 'listenForExtractionUpdate',
+    updateExtractionProgress: 'updateExtractionProgress'
 };
 
 module.exports = events;
