@@ -2,6 +2,7 @@ const {exec} = require('child_process');
 const {logToFile} = require('./logging');
 const os = require('os');
 
+// Todo: retrieve ffmpeg from PATH environment variable
 function getFFMpegVersion() {
     return new Promise((resolve) => {
         exec('ffmpeg -version',  (error, stdout, stderr) => {

@@ -10,6 +10,21 @@
 }
 
 .page.extract {
+  .error-banner {
+    color: $white;
+    background: $grey;
+    border-bottom: 0.25em solid $danger;
+
+    p {
+      text-align: center;
+    }
+  }
+
+  &.dark {
+    .error-banner {
+    }
+  }
+
   #extraction-list {
     flex: 1 1 auto;
     overflow: auto;

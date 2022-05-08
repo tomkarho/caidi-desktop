@@ -4,6 +4,7 @@ import ExtractList from './ExtractList';
 import {logToFile} from '../../shared/helpers';
 import {useState} from 'react';
 import {Extraction} from './Extraction';
+import {useAppSelector} from '../../core/hooks';
 
 interface IFile {
     name: string;
@@ -13,6 +14,7 @@ interface IFile {
 function ExtractPage() {
     const [extractions, setExtractions] = useState<Extraction[]>([]);
     const [extractionActive, setExtractionActive] = useState<boolean>(false);
+    const ffmpegVersion = useAppSelector(state => state.settings.ffmpegVersion);
 
     function openFileDialog(folder: boolean) {
         const files = folder ? window.electron.openFolderDialog() : window.electron.openFileDialog();
@@ -33,13 +35,22 @@ function ExtractPage() {
         setTimeout(() => setExtractionActive(false), 3000);
     }
 
+    function ffmpegErrorBanner() {
+        return (
+            <div className="error-banner">
+                <p>Could not find ffmpeg. Extraction cannot continue. Is ffmpeg in PATH?</p>
+            </div>
+        );
+    }
+
     return (
         <Page className="extract">
+            {!ffmpegVersion ? ffmpegErrorBanner() : <></>}
             <ExtractList extractions={extractions}/>
 
             <div className="controls flex">
-                <button onClick={() => openFileDialog(false)} disabled={extractionActive}>Add files</button>
-                <button onClick={() => openFileDialog(true)} disabled={extractionActive}>Add folder</button>
+                <button onClick={() => openFileDialog(false)} disabled={extractionActive || !ffmpegVersion}>Add files</button>
+                <button onClick={() => openFileDialog(true)} disabled={extractionActive || !ffmpegVersion}>Add folder</button>
                 <button id="extract-button" onClick={startExtraction} disabled={extractionActive || !extractions.length}>
                     {extractionActive ?
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
