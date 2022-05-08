@@ -3,8 +3,8 @@ import Page from '../../shared/PageComponent';
 import ExtractList from './ExtractList';
 import {logToFile} from '../../shared/helpers';
 import {useState} from 'react';
-import {Extraction} from './Extraction';
-import {useAppSelector} from '../../core/hooks';
+import {useAppDispatch, useAppSelector} from '../../core/hooks';
+import {setExtractions} from './extractionSlice';
 
 interface IFile {
     name: string;
@@ -12,7 +12,8 @@ interface IFile {
 }
 
 function ExtractPage() {
-    const [extractions, setExtractions] = useState<Extraction[]>([]);
+    const dispatch = useAppDispatch();
+    const extractions = useAppSelector(state => state.extractions.extractions);
     const [extractionActive, setExtractionActive] = useState<boolean>(false);
     const ffmpegVersion = useAppSelector(state => state.settings.ffmpegVersion);
 
@@ -24,10 +25,12 @@ function ExtractPage() {
         }
 
         logToFile(`ExtractPage: received ${files.length} files from main process`);
-        setExtractions(files.map((file: IFile) => {
+        const extractions = files.map((file: IFile) => {
             const progress = 0;
             return {...file, progress};
-        }));
+        });
+
+        dispatch(setExtractions(extractions));
     }
 
     function startExtraction() {
