@@ -6,7 +6,7 @@ const events = require('./events');
 const {clearInterval} = require('timers');
 
 ipcMain.on(events.startExtraction, async (event, file) => {
-    logToFile(`Starting extraction on file ${file.path}`);
+    logToFile(`Starting extraction on file '${file.path}'`);
 
     const intervalTime = Math.round(Math.random() * 10) + 1;
     let interval = setInterval(() => {
@@ -16,6 +16,7 @@ ipcMain.on(events.startExtraction, async (event, file) => {
         if (file.progress >= 100) {
             file.progress = 100;
             clearInterval(interval);
+            logToFile(`Extractions of file '${file.path}' finished`);
         }
 
         event.sender.send(events.updateExtractionProgress, file);
