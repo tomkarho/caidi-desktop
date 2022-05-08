@@ -1,6 +1,12 @@
+const {ipcMain} = require('electron');
 const {exec} = require('child_process');
 const {logToFile} = require('./logging');
 const os = require('os');
+const events = require('./events');
+
+ipcMain.on(events.startExtraction, async (event, file) => {
+    logToFile(`Starting extraction on file ${file.path}`);
+});
 
 // Todo: retrieve ffmpeg from PATH environment variable
 function getFFMpegVersion() {

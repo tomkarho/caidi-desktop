@@ -32,6 +32,7 @@ function ExtractPage() {
     }
 
     function startExtraction() {
+        extractions.extractions.forEach(ext => window.electron.startExtraction(ext));
         dispatch(setExtractActiveState(true));
         setTimeout(() => dispatch(setExtractActiveState(false)), 3000);
     }

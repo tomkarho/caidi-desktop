@@ -7,5 +7,6 @@ api[events.openFileDialog] = (message) => ipcRenderer.sendSync(events.openFileDi
 api[events.openFolderDialog] = (message) => ipcRenderer.sendSync(events.openFolderDialog, message);
 api[events.loadSettings] = () => ipcRenderer.sendSync(events.loadSettings);
 api[events.saveSettings] = (settings) => ipcRenderer.send(events.saveSettings, settings);
+api[events.startExtraction] = (file) => ipcRenderer.send(events.startExtraction, file);
 
 contextBridge.exposeInMainWorld('electron', api);
