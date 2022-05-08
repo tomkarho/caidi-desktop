@@ -3,11 +3,13 @@ import {Extraction} from './Extraction';
 
 interface ExtractSliceState {
     readonly extractions: Extraction[];
+    readonly active: boolean;
 }
 
 const name = 'extractions';
 const initialState: ExtractSliceState = {
-    extractions: []
+    extractions: [],
+    active: false
 };
 
 const extractSlice = createSlice({
@@ -16,9 +18,12 @@ const extractSlice = createSlice({
     reducers: {
         setExtractions: (state: Draft<ExtractSliceState>, action: PayloadAction<Extraction[]>) => {
             state.extractions = action.payload;
+        },
+        setExtractActiveState: (state: Draft<ExtractSliceState>, action: PayloadAction<boolean>) => {
+            state.active = action.payload;
         }
     }
 });
 
-export const {setExtractions} = extractSlice.actions;
+export const {setExtractions, setExtractActiveState} = extractSlice.actions;
 export default extractSlice.reducer;
