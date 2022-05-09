@@ -1,26 +1,64 @@
 const {ipcMain} = require('electron');
-const {exec} = require('child_process');
+const {exec, spawn} = require('child_process');
 const {logToFile} = require('./logging');
 const os = require('os');
 const events = require('./events');
-const {clearInterval} = require('timers');
+
+// Example line of metadata: DURATION        : 05:01:26.041000000
+function parseDuration(data) {
+    const searchKey = 'DURATION';
+    const parts = data.split(os.EOL);
+    const durationPart = parts?.find(p => p.includes(searchKey))?.replace(/\s/g,'');
+
+    if (durationPart) {
+        const durationString = durationPart.substring(durationPart.lastIndexOf(searchKey) + searchKey.length + 1).trim();
+        const [hour, minute, second] = durationString.replace('.', ':').split(':');
+
+        return (hour * 60 * 60) + (minute * 60) + second;
+    }
+
+    return null;
+}
+
+// Example line of extraction: stderr: size=   80896kB time=01:06:41.69 bitrate= 165.6kbits/s speed= 105x
+function parseTime(duration, data) {
+    const time = data.substring(data.indexOf('time=') + 5, data.lastIndexOf('bitrate=')).trim();
+    const [hour, minute, second] = time.replace('.', ':').split(':');
+
+    return (hour * 60 * 60) + (minute * 60) + second;
+}
 
 ipcMain.on(events.startExtraction, async (event, file) => {
     logToFile(`Starting extraction on file '${file.path}'`);
 
-    const intervalTime = Math.round(Math.random() * 10) + 1;
-    let interval = setInterval(() => {
-        const progress = file.progress + intervalTime;
-        file.progress = progress;
+    let duration = 0;
+    const ffmpeg = spawn('ffmpeg', ['-y -i', `'${file.path}'`, '-q:a 0 -map a', `'${file.path}.mp3'`], { shell: true });
+    ffmpeg.stdout.on('data', () => {/*ffmpeg doesn't send data to stdout but stderr*/});
+    ffmpeg.stderr.on('data', (data) => {
+        const output = data.toString();
 
-        if (file.progress >= 100) {
+        duration = parseDuration(output) || duration;
+
+        // Actual ffmpeg progress output contains these fields
+        if (data.includes('size=') && data.includes('time=') && output.includes('bitrate=')) {
+            const time = parseTime(duration, output);
+            file.progress = Math.round((time / duration) * 100);
+
+            if (file.progress >= 100) {
+                file.progress = 100;
+            }
+
+            event.sender.send(events.updateExtractionProgress, file);
+        }
+    });
+
+    ffmpeg.on('close', (code) => {
+        if (code === 0) {
             file.progress = 100;
-            clearInterval(interval);
+            event.sender.send(events.updateExtractionProgress, file);
             logToFile(`Extractions of file '${file.path}' finished`);
         }
-
-        event.sender.send(events.updateExtractionProgress, file);
-    }, 300);
+    });
 });
 
 // Todo: retrieve ffmpeg from PATH environment variable
