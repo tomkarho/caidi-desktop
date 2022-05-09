@@ -4,6 +4,10 @@ const {logToFile} = require('./logging');
 const os = require('os');
 const events = require('./events');
 
+function asSeconds(hour, minute, second) {
+    return (hour * 60 * 60) + (minute * 60) + second;
+}
+
 // Example line of metadata: DURATION        : 05:01:26.041000000
 function parseDuration(data) {
     const searchKey = 'DURATION';
@@ -14,7 +18,7 @@ function parseDuration(data) {
         const durationString = durationPart.substring(durationPart.lastIndexOf(searchKey) + searchKey.length + 1).trim();
         const [hour, minute, second] = durationString.replace('.', ':').split(':');
 
-        return (hour * 60 * 60) + (minute * 60) + second;
+        return asSeconds(hour, minute, second);
     }
 
     return null;
@@ -25,7 +29,7 @@ function parseTime(duration, data) {
     const time = data.substring(data.indexOf('time=') + 5, data.lastIndexOf('bitrate=')).trim();
     const [hour, minute, second] = time.replace('.', ':').split(':');
 
-    return (hour * 60 * 60) + (minute * 60) + second;
+    return asSeconds(hour, minute, second);
 }
 
 ipcMain.on(events.startExtraction, async (event, file) => {
