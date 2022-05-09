@@ -4,6 +4,10 @@ const {logToFile} = require('./logging');
 const os = require('os');
 const events = require('./events');
 
+function getTimeParts(data) {
+    return data.replace('.', ':').split(':');
+}
+
 function asSeconds(hour, minute, second) {
     return (hour * 60 * 60) + (minute * 60) + second;
 }
@@ -16,7 +20,7 @@ function parseDuration(data) {
 
     if (durationPart) {
         const durationString = durationPart.substring(durationPart.lastIndexOf(searchKey) + searchKey.length + 1).trim();
-        const [hour, minute, second] = durationString.replace('.', ':').split(':');
+        const [hour, minute, second] = getTimeParts(durationString);
 
         return asSeconds(hour, minute, second);
     }
@@ -27,7 +31,7 @@ function parseDuration(data) {
 // Example line of extraction: stderr: size=   80896kB time=01:06:41.69 bitrate= 165.6kbits/s speed= 105x
 function parseTime(duration, data) {
     const time = data.substring(data.indexOf('time=') + 5, data.lastIndexOf('bitrate=')).trim();
-    const [hour, minute, second] = time.replace('.', ':').split(':');
+    const [hour, minute, second] = getTimeParts(time);
 
     return asSeconds(hour, minute, second);
 }
