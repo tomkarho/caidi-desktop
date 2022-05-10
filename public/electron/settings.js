@@ -2,7 +2,7 @@ const {app, ipcMain} = require('electron');
 const fs = require('fs');
 const {logToFile} = require('./logging');
 const events = require('./events');
-const {getFFMpegVersion} = require('./ffmpeg');
+const {getFFMpegVersion} = require('./ffmpegWrapper');
 
 const settingsFolder = `${app.getPath('appData')}/caidi`;
 const settingsFile = `${settingsFolder}/settings.json`;
