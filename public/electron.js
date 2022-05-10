@@ -14,6 +14,7 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'electron', 'preload.js')
         },
+        icon: `${__dirname}/logo512.png`
     });
 
     // and load the index.html of the core.
