@@ -7,7 +7,7 @@ node {
           rm -rf dist
           npm install
         """
-    },
+    }
     stage('Build') {
       sh"""
         npm run build
