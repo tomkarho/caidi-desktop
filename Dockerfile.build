@@ -5,7 +5,8 @@ RUN DEBIAN_FRONTEND="noninteractive" && \
     TZ="Europe/Helsinki" && \
     apt update && \
     apt install tzdata && \
-    apt -y install npm
+    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && \
+    sudo apt-get install nodejs
 
 COPY . .
 
