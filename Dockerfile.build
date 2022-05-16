@@ -7,9 +7,7 @@ ARG UNAME=jenkins
 ARG UID=1000
 ARG GID=1000
 
-RUN groupadd -g $GID -o $UNAME && \
-    useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME && \
-    chown -R $UID:$GID /app
+RUN RUN addgroup --gid $GID $UNAME && adduser $UNAME -G $UNAME  && \ chown -R $UID:$GID /app
 
 USER $UNAME
 
