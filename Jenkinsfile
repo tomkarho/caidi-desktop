@@ -6,12 +6,6 @@ node {
 
     stage('Init') {
         checkout scm
-
-        sh """
-          rm -rf build
-          rm -rf dist
-          npm install
-        """
     }
 
     def version=sh(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
