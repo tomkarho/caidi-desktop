@@ -7,7 +7,11 @@ ARG UNAME=jenkins
 ARG UID=1000
 ARG GID=1000
 
-RUN addgroup --gid $GID $UNAME && adduser -D --uid $UID $UNAME -G $UNAME  && chown -R $UID:$GID /app
+RUN sudo apt install -y p7zip && \
+    addgroup --gid $GID $UNAME && \
+    adduser -D --uid $UID $UNAME -G $UNAME && \
+    chown -R $UID:$GID /app
+
 
 USER $UNAME
 
