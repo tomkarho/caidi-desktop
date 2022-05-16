@@ -2,22 +2,22 @@ node {
     stage('Init') {
         checkout scm
 
-        sh '''
+        sh"""
           rm -rf build
           rm -rf dist
           npm install
-        '''
+        """
     },
     stage('Build') {
-      sh '''
+      sh"""
         npm run build
-      '''
+      """
     }
     stage('Package') {
-      sh'''
+      sh"""
         npm run package
         ls -lah build
         ls -lah dist
-      '''
+      """
     }
 }
