@@ -9,15 +9,15 @@ node {
         """
     }
     stage('Build') {
-      sh"""
-        npm run build
-      """
+        sh"""
+          npm run build
+        """
     }
     stage('Package') {
-      sh"""
-        npm run package
-        ls -lah build
-        ls -lah dist
-      """
+        sh"""
+          npm run package
+          ls -lah build
+          ls -lah dist
+        """
     }
 }
