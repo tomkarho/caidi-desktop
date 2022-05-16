@@ -1,0 +1,22 @@
+FROM ubuntu:20.04
+
+WORKDIR /app
+RUN DEBIAN_FRONTEND="noninteractive" && \
+    TZ="Europe/Helsinki" && \
+    apt update && \
+    apt install tzdata && \
+    apt -y install npm
+
+COPY . .
+
+ARG UNAME=jenkins
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g $GID -o $UNAME && \
+    useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME && \
+    chown -R $UID:$GID /app
+
+USER $UNAME
+
+CMD ["sh", "bin/build.sh"]
