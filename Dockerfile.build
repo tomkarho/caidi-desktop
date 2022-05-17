@@ -11,7 +11,10 @@ RUN DEBIAN_FRONTEND="noninteractive" TZ="Europe/Helsinki" && \
     apt update && \
     apt install -y tzdata curl sudo && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && \
-    sudo apt-get install nodejs
+    sudo apt-get install nodejs && \
+    groupadd -g $GID -o $UNAME && \
+    useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME && \
+    chown -R $UID:$GID /app
 
 
 USER $UNAME
