@@ -7,8 +7,7 @@ ARG UNAME=jenkins
 ARG UID=1000
 ARG GID=1000
 
-RUN DEBIAN_FRONTEND="noninteractive" && \
-    TZ="Europe/Helsinki" && \
+RUN DEBIAN_FRONTEND="noninteractive" TZ="Europe/Helsinki" && \
     apt update && \
     apt install -y tzdata && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && \
