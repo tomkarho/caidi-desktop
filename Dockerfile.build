@@ -7,7 +7,7 @@ ARG UNAME=jenkins
 ARG UID=1000
 ARG GID=1000
 
-RUN apk add -y p7zip && \
+RUN apk add p7zip && \
     addgroup --gid $GID $UNAME && \
     adduser -D --uid $UID $UNAME -G $UNAME && \
     chown -R $UID:$GID /app
