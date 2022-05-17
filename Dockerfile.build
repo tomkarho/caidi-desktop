@@ -8,6 +8,7 @@ ARG UID=1000
 ARG GID=1000
 
 RUN apk add p7zip && \
+    apk add --no-cache libc6-compat && \
     addgroup --gid $GID $UNAME && \
     adduser -D --uid $UID $UNAME -G $UNAME && \
     chown -R $UID:$GID /app
