@@ -23,9 +23,27 @@ node {
         """
     }
 
-    stage('Verify') {
+    stage('Package Windows') {
         sh """
-          ls -lah
+          rm -rf windows
+          mkdir windows
+
+          cp -r dist/win-unpacked windows/
+          cp dist/*.exe windows/
+
+          ls -lah windows/
+        """
+    }
+    stage('Package Linux') {
+        sh """
+          rm -rf linux
+          mkdir linux
+
+          cp -r dist/linux-unpacked linux/
+          cp dist/*.AppImage linux/
+          cp dist/*.snap linux/
+
+          ls -lah linux/
         """
     }
 }
