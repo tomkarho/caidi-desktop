@@ -17,8 +17,8 @@ node {
 
     stage('App build') {
         sh """
-          rm -r dist
-          rm -r build
+          rm -rf dist
+          rm -rf build
           docker run --rm -v \"${CURRENT_PATH}:/app\" ${APP_NAME}:latest
         """
     }
