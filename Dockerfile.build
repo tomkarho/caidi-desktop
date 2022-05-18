@@ -7,9 +7,12 @@ ARG UNAME=jenkins
 ARG UID=1000
 ARG GID=1000
 
-RUN DEBIAN_FRONTEND="noninteractive" TZ="Europe/Helsinki" && \
+RUN DEBIAN_FRONTEND=noninteractive TZ="Europe/Helsinki" && \
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
+    dpkg --add-architecture i386 && \
+    apt clean && \
     apt update && \
-    apt install -y tzdata curl sudo && \
+    apt install -y -q tzdata curl sudo wine libwine wine32 && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && \
     sudo apt-get install nodejs && \
     groupadd -g $GID -o $UNAME && \
