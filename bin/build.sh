@@ -10,7 +10,10 @@ echo "Creating build artifacts"
 npm run package
 
 echo "Packaging Linux version"
-LINUX_FOLDER=caidi-linux
+VERSION_HASH=$(git rev-parse --short HEAD)
+VERSION_NUMBER=$(git --no-pager log --oneline | wc -l)
+
+LINUX_FOLDER="caidi-linux-$VERSION_HASH-$VERSION_NUMBER"
 rm -rf $LINUX_FOLDER
 mkdir $LINUX_FOLDER
 
@@ -22,7 +25,7 @@ tar -zcf caidi-linux.tgz $LINUX_FOLDER/
 rm -rf $LINUX_FOLDER
 
 echo "Packaging windows version"
-WINDOWS_FOLDER=caidi-windows
+WINDOWS_FOLDER="caidi-windows-$VERSION_HASH-$VERSION_NUMBER"
 rm -rf $WINDOWS_FOLDER
 mkdir $WINDOWS_FOLDER
 
