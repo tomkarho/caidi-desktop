@@ -30,8 +30,6 @@ node {
         """
     }
     stage('Clean') {
-        sh """
-            sh "docker rmi -f ${dockerImageId}"
-        """
+        sh "docker rmi -f ${dockerImageId}"
     }
 }
