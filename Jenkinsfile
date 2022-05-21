@@ -14,7 +14,7 @@ node {
         dockerImageId = sh(
           script: """docker build -q -f Dockerfile.build --build-arg UID=${UID} --build-arg GID=${GID} -t ${APP_NAME} .""",
           returnStdout: true
-        )
+        ).trim()
     }
 
     stage('App build') {
