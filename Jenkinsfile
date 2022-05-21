@@ -12,7 +12,7 @@ node {
     def version=sh(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
     stage('Docker build') {
         dockerImageId = sh(
-          script: """docker build -f Dockerfile.build --build-arg UID=${UID} --build-arg GID=${GID} -t ${APP_NAME} .""",
+          script: """docker build -q -f Dockerfile.build --build-arg UID=${UID} --build-arg GID=${GID} -t ${APP_NAME} .""",
           returnStdout: true
         )
     }
