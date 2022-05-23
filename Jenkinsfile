@@ -27,7 +27,7 @@ node {
     def versionHash=sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
     def versionNumber=sh(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
     def linuxPackage="caidi-linux-${versionHash}-${versionNumber}.tgz"
-    def windowsPackage="caidi-windows-${versionHash}-${versionNumber}.7za"
+    def windowsPackage="caidi-windows-${versionHash}-${versionNumber}.7z"
     def linuxPackageExists = fileExists "$linuxPackage"
     def windowsPackageExists = fileExists "$windowsPackage"
 
@@ -47,8 +47,9 @@ node {
     }
     stage('Publish') {
       sh """
-        mv ${linuxPackage} /var/www/html/artifacts/
-        mv ${windowsPackage} /var/www/html/artifacts/
+        mkdir /var/www/html/artifacts/caidi
+        mv ${linuxPackage} /var/www/html/artifacts/caidi/
+        mv ${windowsPackage} /var/www/html/artifacts/caidi/
       """
     }
     stage('Clean') {
