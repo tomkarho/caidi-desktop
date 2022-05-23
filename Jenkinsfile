@@ -9,7 +9,6 @@ node {
         checkout scm
     }
 
-    def version=sh(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
     stage('Docker build') {
         dockerImageId = sh(
           script: """docker build -q -f Dockerfile.build --build-arg UID=${UID} --build-arg GID=${GID} -t ${APP_NAME} .""",
@@ -25,9 +24,26 @@ node {
         """
     }
 
+    def versionHash=sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+    def versionNumber=$(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
+    def linuxPackage="caidi-linux-${versionHash}-${versionNumber}.tgz"
+    def windowsPackage="caidi-windows-${versionHash}-${versionNumber}.7z"
+    def linuxPackageExists = fileExists $linuxPackage
+    def windowsPackageExists = fileExists $windowsPackage
+
+    if (!linuxPackageExists) {
+        echo "LINUX PACKAGE MISSING"
+    }
+
+    if (!windowsPackageExists) {
+        echo "WINDOWS PACKAGE MISSING"
+    }
+
     stage('Verify') {
+
         sh """
-            ls -lah
+            ls -lah ${linuxPackage}
+            ls -lah ${windowsPackage}
         """
     }
     stage('Clean') {
