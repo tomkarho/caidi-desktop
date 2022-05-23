@@ -32,11 +32,11 @@ node {
     def windowsPackageExists = fileExists "$windowsPackage"
 
     if (!linuxPackageExists) {
-        echo "LINUX PACKAGE MISSING"
+        error("Linux package is not generated")
     }
 
     if (!windowsPackageExists) {
-        echo "WINDOWS PACKAGE MISSING"
+        error("Windows package is generated")
     }
 
     stage('Verify') {
