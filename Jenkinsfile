@@ -6,45 +6,44 @@ node {
     def CURRENT_PATH=sh(script: "pwd", returnStdout: true).trim()
 
     stage('Init') {
-        checkout scm
+      checkout scm
     }
 
     stage('Docker build') {
-        dockerImageId = sh(
-          script: """docker build -q -f Dockerfile.build --build-arg UID=${UID} --build-arg GID=${GID} -t ${APP_NAME} .""",
-          returnStdout: true
-        ).trim()
+      dockerImageId = sh(
+        script: """docker build -q -f Dockerfile.build --build-arg UID=${UID} --build-arg GID=${GID} -t ${APP_NAME} .""",
+        returnStdout: true
+      ).trim()
     }
 
     stage('App build') {
-        sh """
-          rm -rf dist
-          rm -rf build
-          docker run --rm -v \"${CURRENT_PATH}:/app\" ${APP_NAME}:latest
-        """
+      sh """
+        rm -rf dist
+        rm -rf build
+        docker run --rm -v \"${CURRENT_PATH}:/app\" ${APP_NAME}:latest
+      """
     }
 
     def versionHash=sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
     def versionNumber=sh(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
-    def linuxPackage="caidi-linux-${versionHash}-${versionNumber}.tgza"
+    def linuxPackage="caidi-linux-${versionHash}-${versionNumber}.tgz"
     def windowsPackage="caidi-windows-${versionHash}-${versionNumber}.7za"
     def linuxPackageExists = fileExists "$linuxPackage"
     def windowsPackageExists = fileExists "$windowsPackage"
 
-    if (!linuxPackageExists) {
-        error("Linux package is not generated")
-    }
-
-    if (!windowsPackageExists) {
-        error("Windows package is generated")
-    }
-
     stage('Verify') {
+      if (!linuxPackageExists) {
+        error("Linux package is not generated")
+      }
 
-        sh """
-            ls -lah ${linuxPackage}
-            ls -lah ${windowsPackage}
-        """
+      if (!windowsPackageExists) {
+        error("Windows package is generated")
+      }
+
+      sh """
+        ls -lah ${linuxPackage}
+        ls -lah ${windowsPackage}
+      """
     }
     stage('Publish') {
       sh """
@@ -53,6 +52,6 @@ node {
       """
     }
     stage('Clean') {
-        sh "docker rmi -f ${dockerImageId}"
+      sh "docker rmi -f ${dockerImageId}"
     }
 }
