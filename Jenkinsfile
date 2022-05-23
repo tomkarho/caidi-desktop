@@ -25,7 +25,7 @@ node {
     }
 
     def versionHash=sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-    def versionNumber=$(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
+    def versionNumber=sh(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
     def linuxPackage="caidi-linux-${versionHash}-${versionNumber}.tgz"
     def windowsPackage="caidi-windows-${versionHash}-${versionNumber}.7z"
     def linuxPackageExists = fileExists $linuxPackage
