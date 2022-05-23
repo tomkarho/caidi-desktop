@@ -28,8 +28,8 @@ node {
     def versionNumber=sh(script: "git --no-pager log --oneline | wc -l", returnStdout: true).trim()
     def linuxPackage="caidi-linux-${versionHash}-${versionNumber}.tgz"
     def windowsPackage="caidi-windows-${versionHash}-${versionNumber}.7z"
-    def linuxPackageExists = fileExists $linuxPackage
-    def windowsPackageExists = fileExists $windowsPackage
+    def linuxPackageExists = fileExists "$linuxPackage"
+    def windowsPackageExists = fileExists "$windowsPackage"
 
     if (!linuxPackageExists) {
         echo "LINUX PACKAGE MISSING"
@@ -45,6 +45,12 @@ node {
             ls -lah ${linuxPackage}
             ls -lah ${windowsPackage}
         """
+    }
+    stage('Publish') {
+      sh """
+        mv ${linuxPackage} /var/www/html/artifacts/
+        mv ${windowsPackage} /var/www/html/artifacts/
+      """
     }
     stage('Clean') {
         sh "docker rmi -f ${dockerImageId}"
