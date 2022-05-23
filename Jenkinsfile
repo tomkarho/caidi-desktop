@@ -39,11 +39,6 @@ node {
       if (!windowsPackageExists) {
         error("Windows package is generated")
       }
-
-      sh """
-        ls -lah ${linuxPackage}
-        ls -lah ${windowsPackage}
-      """
     }
     stage('Publish') {
       sh """
